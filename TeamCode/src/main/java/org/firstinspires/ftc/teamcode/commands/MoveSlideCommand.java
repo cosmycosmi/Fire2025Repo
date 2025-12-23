@@ -12,7 +12,7 @@ public class MoveSlideCommand extends Command {
 
     private int targetTicks;
 
-    private DcMotor viperslide;
+    private DcMotor slides;
 
     public MoveSlideCommand(double inches) {
         if (inches < 0) inches = 0;
@@ -24,19 +24,19 @@ public class MoveSlideCommand extends Command {
     @Override
     public void init() {
 
-        viperslide = hardwareMap.get(DcMotor.class, "viperslide");
-        viperslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        viperslide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        viperslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        viperslide.setDirection(DcMotorSimple.Direction.REVERSE);
+        slides = hardwareMap.get(DcMotor.class, "slides");
+        slides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slides.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
     public void start() {
 
 
-        viperslide.setTargetPosition(targetTicks);
-        viperslide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slides.setTargetPosition(targetTicks);
+        slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -44,28 +44,28 @@ public class MoveSlideCommand extends Command {
 
     @Override
     public void loop() {
-        int error = viperslide.getTargetPosition() - viperslide.getCurrentPosition();
+        int error = slides.getTargetPosition() - slides.getCurrentPosition();
         double power = Constants.SLIDE_MAX_POWER;
         if (Math.abs(error) <= Constants.DRIVE_SPOOLING_THRESHOLD) {
             power = Constants.SLIDE_MIN_POWER +
                     (Constants.SLIDE_MAX_POWER - Constants.SLIDE_MIN_POWER) * (Math.abs(error) / Constants.DRIVE_SPOOLING_THRESHOLD);
         }
 
-        viperslide.setPower(power);
+        slides.setPower(power);
         telemetry.addData("Slide Target", targetTicks);
-        telemetry.addData("Slide Position", viperslide.getCurrentPosition());
+        telemetry.addData("Slide Position", slides.getCurrentPosition());
         telemetry.addData("Slide Power", power);
         telemetry.update();
     }
 
     @Override
     public void finish(boolean interrupted) {
-        viperslide.setPower(0);
-        viperslide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slides.setPower(0);
+        slides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override
     public boolean isFinished() {
-        return !viperslide.isBusy();
+        return !slides.isBusy();
     }
 }

@@ -2,17 +2,14 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.teamcode.commands.MoveToTargetCommand;
-import org.firstinspires.ftc.teamcode.command.Commands;
-import org.firstinspires.ftc.teamcode.commands.MoveSlideCommand;
-import org.firstinspires.ftc.teamcode.command.builtin.InstantCommand;
 
-@TeleOp
-public class MecanumWithHang3 extends LinearOpMode {
+import org.firstinspires.ftc.teamcode.commands.MoveSlideCommand;
+
+
+public class example extends LinearOpMode {
 
 //configuration
 
